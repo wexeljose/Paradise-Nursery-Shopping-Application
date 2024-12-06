@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
 import { useDispatch } from 'react-redux';
+import { addItem, CartSlice } from './CartSlice';
 
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
@@ -246,16 +247,20 @@ const handlePlantsClick = (e) => {
 };
 
 const handleAddToCart = (product) => {
-    dispatch(addItem(product));
-    setAddedToCart((prevState) => ({
-       ...prevState,
-       [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
-     }));
-  };
+    // Add the selected product to the cart
+    setAddedToCart(product);
+    // Dispatch the action to add the product to the cart
+    addItem(product);
+    // Show the cart after adding the product
+    setShowCart(true);
+
+    console.log(CartSlice.items);
+};
 
    const handleContinueShopping = (e) => {
-    e.preventDefault();
+    // go back to the product list
     setShowCart(false);
+
   };
     return (
         <div>
@@ -274,7 +279,7 @@ const handleAddToCart = (product) => {
             </div>
             <div style={styleObjUl}>
                 <div> <a href="#" onClick={(e)=>handlePlantsClick(e)} style={styleA}>Plants</a></div>
-                <div> <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}><h1 className='cart'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg></h1></a></div>
+                <div> <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}><h1 className='cart' ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg></h1></a></div>
             </div>
         </div>
         {!showCart? (
@@ -290,8 +295,12 @@ const handleAddToCart = (product) => {
                 <img className="product-image" src={plant.image} alt={plant.name} />
                 <div className="product-title">{plant.name}</div>
                 <div className="product-description">{plant.description}</div>
-                <div className="product-cost">{plant.cost}</div>
-                <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                <div className="product-cost">{plant.cost}</div>{}
+                <button
+                    className="product-button"
+                    disabled= {addedToCart.name === plant.name}
+                    onClick={() => handleAddToCart(plant)}  
+                >Add to Cart</button>
             </div>
             ))}
         </div>
