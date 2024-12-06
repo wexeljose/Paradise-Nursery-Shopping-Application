@@ -105,7 +105,12 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
     margin-top: 10px;
+
+    &.added {
+        background-color: grey;
+    }
 }
+
 
 .product-button:hover {
     background-color: #c0392b;

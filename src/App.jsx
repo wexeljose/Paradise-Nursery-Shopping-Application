@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import ProductList from './ProductList';
 import './App.css';
 import AboutUs from './AboutUs';
+import { CartProvider } from './providers/CartProvider';
 
 function App() {
   
@@ -13,6 +14,7 @@ function App() {
   };
 
   return (
+    <CartProvider>
     <div className="app-container">
       <div className={`landing-page ${showProductList ? 'fade-out' : ''}`}>
         <div className="background-image"></div>
@@ -36,6 +38,7 @@ function App() {
         <ProductList />
       </div>
     </div>
+    </CartProvider>
   );
 }
 
